@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:gravity="center_horizontal"
+            android:background="@drawable/border_layout"
+            android:orientation="vertical"
+            android:id="@+id/appInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:clipChildren="true">
+
+        <TextView
+                android:id="@+id/information"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <ImageView
+                android:layout_marginTop="10dp"
+                android:src="@android:drawable/checkbox_on_background"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:gravity="center_vertical"
+            android:id="@+id/install_button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+        <Button
+                android:enabled="false"
+                android:textSize="20sp"
+                android:textColor="@color/left_btn_text"
+                android:background="@drawable/left_radius_button"
+                android:gravity="center"
+                android:textAlignment="gravity"
+                android:id="@+id/finish"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/finish"/>
+
+        <Button
+                android:enabled="false"
+                android:textSize="20sp"
+                android:background="@drawable/right_radius_button"
+                android:textColor="@color/right_btn_text"
+                android:gravity="center"
+                android:textAlignment="gravity"
+                android:id="@+id/open"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/open"/>
+    </LinearLayout>
+</LinearLayout>
