@@ -11,25 +11,48 @@ apply plugin: 'com.android.application'
 repositories {
     mavenCentral()
     jcenter()
+    maven {
+        url 'https://maven.google.com/'
+        name 'Google'
+    }
 }
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'android'
+            keyPassword 'android'
+            storeFile file('C:/Users/p_chncheng/Desktop/release.keystore')
+            storePassword 'android'
+        }
+    }
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
-
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId 'pers.cz.appinstaller'
         minSdkVersion 9
         targetSdkVersion 21
         versionCode 3
         versionName "1.2"
+        signingConfig signingConfigs.config
     }
-
     lintOptions {
         abortOnError false
+    }
+    productFlavors {
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.config
+        }
+        release {
+            signingConfig signingConfigs.config
+        }
     }
 }
 
 dependencies {
     // some dependencies
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
 }

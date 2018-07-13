@@ -24,6 +24,7 @@ public class InstallUtil {
                 outputStream.write(buffer, 0, length);
             return new String(outputStream.toByteArray());
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
             return "";
         } finally {

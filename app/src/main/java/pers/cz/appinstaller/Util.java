@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileLock;
 
 public class Util {
     public static final int NONEEDDECODEAPK = 17;
@@ -29,7 +30,7 @@ public class Util {
         PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_CONFIGURATIONS);
         resolveIntent.setPackage(packageInfo.packageName);
-        ResolveInfo resolveInfo = packageManager.queryIntentActivities(resolveIntent, PackageManager.MATCH_DEFAULT_ONLY).iterator().next();
+        ResolveInfo resolveInfo = packageManager.queryIntentActivities(resolveIntent, 0).iterator().next();
         if (resolveInfo != null) {
             String className = resolveInfo.activityInfo.name;
             Intent intent = new Intent("android.intent.action.MAIN");
@@ -58,6 +59,14 @@ public class Util {
         appInfo.sourceDir = archiveFilePath;
         appInfo.publicSourceDir = archiveFilePath;
         return packageManager.getApplicationLabel(appInfo).toString();
+    }
+
+    public static synchronized String getAppVersionByFilePath(Context context, String archiveFilePath) {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo = packageManager.getPackageArchiveInfo(archiveFilePath, PackageManager.GET_ACTIVITIES);
+        if (packageInfo == null)
+            return null;
+        return packageInfo.versionName;
     }
 
     public static synchronized Drawable getAppIconByByFilePath(Context context, String apkAbsolutePath) {
@@ -107,9 +116,11 @@ public class Util {
         int offset = 0;
         FileInputStream inputStream = null;
         FileOutputStream outputStream = null;
+        FileLock fileLock = null;
         try {
             inputStream = new FileInputStream(file);
             outputStream = new FileOutputStream(outfile);
+            fileLock = outputStream.getChannel().lock();
             byte[] buffer = new byte[1024];
             while (true) {
                 int len = inputStream.read(buffer);
@@ -126,7 +137,7 @@ public class Util {
             return outputPath;
         } catch (Exception e) {
             e.printStackTrace();
-            outfile.deleteOnExit();
+            outfile.delete();
             return "";
         } finally {
             try {
@@ -134,6 +145,8 @@ public class Util {
                     inputStream.close();
                 if (outputStream != null)
                     outputStream.close();
+                if (fileLock != null)
+                    fileLock.release();
             } catch (IOException e) {
                 e.printStackTrace();
             }
