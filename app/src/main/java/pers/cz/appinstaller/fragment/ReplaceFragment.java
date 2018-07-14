@@ -1,10 +1,11 @@
-package pers.cz.appinstaller;
+package pers.cz.appinstaller.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import pers.cz.appinstaller.R;
 
 public class ReplaceFragment extends android.support.v4.app.Fragment {
     private String apkAbsolutePath;

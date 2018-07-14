@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <drawable name="red">#0000</drawable>
-    <drawable name="blue">#2ea6e0</drawable>
-    <drawable name="green">#7700ff00</drawable>
-    <drawable name="transparent_background">#00000000</drawable>
-</resources>

@@ -1,4 +1,4 @@
-package pers.cz.appinstaller;
+package pers.cz.appinstaller.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import pers.cz.appinstaller.adapter.ExpandableListAdapter;
+import pers.cz.appinstaller.R;
 
 public class PermissionFragment extends android.support.v4.app.Fragment {
     private SwitchCompat switchCompat;
@@ -29,7 +31,7 @@ public class PermissionFragment extends android.support.v4.app.Fragment {
         final ExpandableListView expandableListView = (ExpandableListView) getActivity().findViewById(R.id.permissionList);
         final String[] classes = new String[]{"包含15条权限"};
         final String[][] students = new String[][]{{"root权限", "root权限", "root权限", "root权限", "root权限", "root权限", "root权限", "root权限"}};
-        expandableListView.setAdapter(new MyExpandableListAdapter(classes, students, getActivity(), new View.OnClickListener() {
+        expandableListView.setAdapter(new ExpandableListAdapter(classes, students, getActivity(), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int groupPosition = (int) view.getTag();
@@ -53,7 +55,7 @@ public class PermissionFragment extends android.support.v4.app.Fragment {
                 FragmentManager fragmentManager = getActivity()
                         .getSupportFragmentManager();
                 fragmentManager.popBackStackImmediate();
-                ProgressFragment fragment = new ProgressFragment();
+                AuthorizeFragment fragment = new AuthorizeFragment();
                 Bundle arguments = new Bundle();
                 arguments.putString("apkAbsolutePath", PermissionFragment.this.apkAbsolutePath);
                 arguments.putString("packageName", PermissionFragment.this.packageName);
@@ -63,6 +65,7 @@ public class PermissionFragment extends android.support.v4.app.Fragment {
                         .beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                         .replace(R.id.fragment, fragment)
+                        .addToBackStack(null)
                         .commit();
             }
         });

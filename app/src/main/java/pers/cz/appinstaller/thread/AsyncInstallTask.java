@@ -1,14 +1,17 @@
-package pers.cz.appinstaller;
+package pers.cz.appinstaller.thread;
 
 import android.os.AsyncTask;
+import pers.cz.appinstaller.R;
+import pers.cz.appinstaller.callback.ShowTextCallback;
+import pers.cz.appinstaller.util.InstallUtil;
 
 import java.io.File;
 
-public class AsyncCheckAndInstallApk extends AsyncTask<String, Void, String> {
+public class AsyncInstallTask extends AsyncTask<String, Void, String> {
     private ShowTextCallback<Integer> callback;
     private final boolean deleteAfterFinish;
 
-    public AsyncCheckAndInstallApk(ShowTextCallback<Integer> callback, boolean deleteAfterFinish) {
+    public AsyncInstallTask(ShowTextCallback<Integer> callback, boolean deleteAfterFinish) {
         this.callback = callback;
         this.deleteAfterFinish = deleteAfterFinish;
     }
@@ -23,8 +26,8 @@ public class AsyncCheckAndInstallApk extends AsyncTask<String, Void, String> {
         String result = "fail";
         if (params.length > 0) {
             String apkAbsolutePath = params[0];
-            if (Util.checkApkIfEncode(apkAbsolutePath) == 19)
-                apkAbsolutePath = Util.decodeApkFile(apkAbsolutePath);
+            if (InstallUtil.checkApkIfEncode(apkAbsolutePath) == 19)
+                apkAbsolutePath = InstallUtil.decodeApkFile(apkAbsolutePath);
             if (apkAbsolutePath != null)
                 result = InstallUtil.installApk(apkAbsolutePath);
             if (deleteAfterFinish && result.contains("Success")) {

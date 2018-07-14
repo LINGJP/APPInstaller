@@ -1,4 +1,4 @@
-package pers.cz.appinstaller;
+package pers.cz.appinstaller.util;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,14 +12,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.os.StatFs;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.channels.FileLock;
 
-public class Util {
+public class InstallUtil {
     public static final int NONEEDDECODEAPK = 17;
     public static final int NONEEDDECODEBPK = 18;
     public static final int NEEDDECODEBPK = 19;
@@ -176,14 +172,14 @@ public class Util {
                 }
             }
             if (isOriginBPKHeader)
-                return Util.NONEEDDECODEBPK;
+                return InstallUtil.NONEEDDECODEBPK;
             for (int i = 0; i < encodeBPKHeader.length; i++)
                 if (buffer[i] != encodeBPKHeader[i])
-                    return Util.NONEEDDECODEAPK;
-            return Util.NEEDDECODEBPK;
+                    return InstallUtil.NONEEDDECODEAPK;
+            return InstallUtil.NEEDDECODEBPK;
         } catch (Exception e) {
             e.printStackTrace();
-            return Util.NONEEDDECODEAPK;
+            return InstallUtil.NONEEDDECODEAPK;
         } finally {
             try {
                 if (fileInputStream != null)
@@ -192,5 +188,65 @@ public class Util {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static synchronized String installApk(String apkAbsolutePath) {
+        ProcessBuilder processBuilder = new ProcessBuilder("pm", "install", "-r", apkAbsolutePath);
+        Process process = null;
+        ByteArrayOutputStream outputStream = null;
+        InputStream errorStream = null;
+        InputStream inputStream = null;
+        try {
+            process = processBuilder.start();
+            outputStream = new ByteArrayOutputStream();
+            errorStream = process.getErrorStream();
+            inputStream = process.getInputStream();
+            int length;
+            byte[] buffer = new byte[1024];
+            while ((length = errorStream.read(buffer)) != -1)
+                outputStream.write(buffer, 0, length);
+            while ((length = inputStream.read(buffer)) != -1)
+                outputStream.write(buffer, 0, length);
+            return new String(outputStream.toByteArray());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return "";
+        } finally {
+            try {
+                if (outputStream != null)
+                    outputStream.close();
+                if (errorStream != null)
+                    errorStream.close();
+                if (inputStream != null)
+                    inputStream.close();
+                if (process != null)
+                    process.destroy();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static String getMachineId() {
+        BufferedReader fileReader = null;
+        try {
+            fileReader = new BufferedReader(new FileReader("/proc/bbksn"));
+            String line;
+            StringBuilder machineId = new StringBuilder();
+            while ((line = fileReader.readLine()) != null)
+                machineId.append(line);
+            return machineId.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fileReader != null)
+                    fileReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

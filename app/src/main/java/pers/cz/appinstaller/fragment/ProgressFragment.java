@@ -1,4 +1,4 @@
-package pers.cz.appinstaller;
+package pers.cz.appinstaller.fragment;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import pers.cz.appinstaller.R;
+import pers.cz.appinstaller.callback.ShowTextCallback;
+import pers.cz.appinstaller.thread.AsyncInstallTask;
+import pers.cz.appinstaller.util.InstallUtil;
 
 public class ProgressFragment extends Fragment implements ShowTextCallback<Integer> {
     private FragmentActivity activity;
@@ -40,7 +44,7 @@ public class ProgressFragment extends Fragment implements ShowTextCallback<Integ
             @Override
             public void onClick(View view) {
                 try {
-                    Util.openApp(ProgressFragment.this.packageName, ProgressFragment.this.activity);
+                    InstallUtil.openApp(ProgressFragment.this.packageName, ProgressFragment.this.activity);
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -53,7 +57,7 @@ public class ProgressFragment extends Fragment implements ShowTextCallback<Integ
                 activity.finish();
             }
         });
-        new AsyncCheckAndInstallApk(this, this.deleteAfterFinish).execute(this.apkAbsolutePath);
+        new AsyncInstallTask(this, this.deleteAfterFinish).execute(this.apkAbsolutePath);
     }
 
     @Override

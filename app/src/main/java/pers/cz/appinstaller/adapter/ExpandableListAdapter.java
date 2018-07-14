@@ -1,4 +1,4 @@
-package pers.cz.appinstaller;
+package pers.cz.appinstaller.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,8 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import pers.cz.appinstaller.R;
 
-public class MyExpandableListAdapter extends BaseExpandableListAdapter {
+public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private String[] groups;
     private String[][] children;
     private Context context;
@@ -24,7 +25,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         TextView childNameTextView;
     }
 
-    public MyExpandableListAdapter(String[] groups, String[][] children, Context context, View.OnClickListener clickListener) {
+    public ExpandableListAdapter(String[] groups, String[][] children, Context context, View.OnClickListener clickListener) {
         this.groups = groups;
         this.children = children;
         this.context = context;

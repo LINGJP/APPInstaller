@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 import android.widget.*;
+import pers.cz.appinstaller.fragment.PermissionFragment;
+import pers.cz.appinstaller.fragment.ReplaceFragment;
+import pers.cz.appinstaller.util.InstallUtil;
 
 import java.io.File;
 
@@ -29,16 +32,16 @@ public class PackageInstallActivity extends FragmentActivity {
         }
 //        apkAbsolutePath = "/storage/sdcard/backups/apps/ES文件浏览器_4.1.7.2.apk";
         //draw header
-        Drawable drawable = Util.getAppIconByByFilePath(this, apkAbsolutePath);
+        Drawable drawable = InstallUtil.getAppIconByByFilePath(this, apkAbsolutePath);
         if (drawable != null)
             ((ImageView) findViewById(R.id.appIcon)).setImageDrawable(drawable);
-        ((TextView) findViewById(R.id.appName)).setText(Util.getAppNameByFilePath(this, apkAbsolutePath));
+        ((TextView) findViewById(R.id.appName)).setText(InstallUtil.getAppNameByFilePath(this, apkAbsolutePath));
         TextView appVersionTextView = (TextView) findViewById(R.id.appVersion);
-        appVersionTextView.setText(Util.getAppVersionByFilePath(this, apkAbsolutePath));
-        String packageName = Util.getPackageNameByFilePath(this, apkAbsolutePath);
+        appVersionTextView.setText(InstallUtil.getAppVersionByFilePath(this, apkAbsolutePath));
+        String packageName = InstallUtil.getPackageNameByFilePath(this, apkAbsolutePath);
         //draw content
         Fragment fragment;
-        PackageInfo packageInfo = Util.getPackageInfoByPackageName(this, packageName);
+        PackageInfo packageInfo = InstallUtil.getPackageInfoByPackageName(this, packageName);
         if (null == packageInfo)
             fragment = new PermissionFragment();
         else {

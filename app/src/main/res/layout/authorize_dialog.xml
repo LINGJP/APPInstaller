@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:gravity="center_horizontal"
+            android:background="@drawable/border_layout"
+            android:orientation="vertical"
+            android:id="@+id/appInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:clipChildren="true">
+
+        <TextView
+                android:id="@+id/machineId"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"/>
+
+        <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/authorizeCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:selectAllOnFocus="true"
+                android:gravity="center"
+                android:hint="@string/authorize"
+                android:singleLine="true"/>
+
+        <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/copyright"
+                android:textSize="14sp"
+                android:textColor="@color/gray"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:gravity="center_vertical"
+            android:id="@+id/install_button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+        <Button
+                android:textSize="20sp"
+                android:textColor="@color/left_btn_text"
+                android:background="@drawable/left_radius_button"
+                android:gravity="center"
+                android:textAlignment="gravity"
+                android:id="@+id/finish"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/cancel"/>
+
+        <Button
+                android:enabled="false"
+                android:textSize="20sp"
+                android:background="@drawable/right_radius_button"
+                android:textColor="@color/right_btn_text"
+                android:gravity="center"
+                android:textAlignment="gravity"
+                android:id="@+id/open"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/sure"/>
+    </LinearLayout>
+</LinearLayout>
