@@ -25,7 +25,7 @@
 
         <ImageView
                 android:layout_marginTop="10dp"
-                android:src="@android:drawable/checkbox_on_background"
+                android:src="@drawable/my_progress"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"/>
     </LinearLayout>
