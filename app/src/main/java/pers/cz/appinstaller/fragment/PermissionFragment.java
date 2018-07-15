@@ -2,17 +2,22 @@ package pers.cz.appinstaller.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.Switch;
 import pers.cz.appinstaller.adapter.ExpandableListAdapter;
 import pers.cz.appinstaller.R;
+import pers.cz.appinstaller.util.InstallUtil;
 
 public class PermissionFragment extends android.support.v4.app.Fragment {
-    private SwitchCompat switchCompat;
+    private FragmentActivity activity;
+    private FragmentManager supportFragmentManager;
+    private ExpandableListView expandableListView;
+    private Switch deleteSwitch;
     private String apkAbsolutePath;
     private String packageName;
 
@@ -27,11 +32,14 @@ public class PermissionFragment extends android.support.v4.app.Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        switchCompat = (SwitchCompat) getActivity().findViewById(R.id.deleteAfterFinish);
-        final ExpandableListView expandableListView = (ExpandableListView) getActivity().findViewById(R.id.permissionList);
-        final String[] classes = new String[]{"包含15条权限"};
-        final String[][] students = new String[][]{{"root权限", "root权限", "root权限", "root权限", "root权限", "root权限", "root权限", "root权限"}};
-        expandableListView.setAdapter(new ExpandableListAdapter(classes, students, getActivity(), new View.OnClickListener() {
+        activity = getActivity();
+        supportFragmentManager = activity.getSupportFragmentManager();
+        expandableListView = (ExpandableListView) activity.findViewById(R.id.permissionList);
+        deleteSwitch = (Switch) activity.findViewById(R.id.deleteAfterFinish);
+        String[] permissions = InstallUtil.getAppPermissionsByFilePath(activity, this.apkAbsolutePath);
+        final String[] permissionGroup = new String[]{"包含" + permissions.length + "条权限"};
+        String[][] permissionInfo = new String[][]{permissions};
+        expandableListView.setAdapter(new ExpandableListAdapter(permissionGroup, permissionInfo, activity, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int groupPosition = (int) view.getTag();
@@ -44,24 +52,21 @@ public class PermissionFragment extends android.support.v4.app.Fragment {
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                for (int i = 0; i < classes.length; i++)
+                for (int i = 0; i < permissionGroup.length; i++)
                     if (i != groupPosition)
                         expandableListView.collapseGroup(i);
             }
         });
 //        expandableListView.expandGroup(0);
-        getActivity().findViewById(R.id.sure).setOnClickListener(new View.OnClickListener() {
+        activity.findViewById(R.id.surePermission).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                FragmentManager fragmentManager = getActivity()
-                        .getSupportFragmentManager();
-                fragmentManager.popBackStackImmediate();
                 AuthorizeFragment fragment = new AuthorizeFragment();
                 Bundle arguments = new Bundle();
                 arguments.putString("apkAbsolutePath", PermissionFragment.this.apkAbsolutePath);
                 arguments.putString("packageName", PermissionFragment.this.packageName);
-                arguments.putBoolean("deleteAfterFinish", PermissionFragment.this.switchCompat.isChecked());
+                arguments.putBoolean("deleteAfterFinish", PermissionFragment.this.deleteSwitch.isChecked());
                 fragment.setArguments(arguments);
-                fragmentManager
+                supportFragmentManager
                         .beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                         .replace(R.id.fragment, fragment)
@@ -69,13 +74,13 @@ public class PermissionFragment extends android.support.v4.app.Fragment {
                         .commit();
             }
         });
-        getActivity().findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+        activity.findViewById(R.id.cancelPermission).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getActivity().getSupportFragmentManager().getBackStackEntryCount() != 0)
-                    getActivity().getSupportFragmentManager().popBackStack();
+                if (supportFragmentManager.getBackStackEntryCount() != 0)
+                    supportFragmentManager.popBackStack();
                 else
-                    getActivity().finish();
+                    activity.finish();
             }
         });
     }

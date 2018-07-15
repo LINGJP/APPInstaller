@@ -12,8 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="30dp"
-            android:paddingBottom="30dp"
-            android:clipChildren="true">
+            android:paddingBottom="30dp">
 
         <TextView
                 android:id="@+id/machineId"
@@ -25,32 +24,31 @@
                 android:singleLine="true"/>
 
         <EditText
-                android:layout_marginTop="10dp"
                 android:id="@+id/authorizeCode"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 android:layout_gravity="center_horizontal"
-                android:selectAllOnFocus="true"
                 android:gravity="center"
-                android:hint="@string/authorize"
+                android:hint="@string/authorizeHint"
                 android:singleLine="true"/>
 
         <TextView
                 android:layout_marginTop="10dp"
                 android:id="@+id/copyright"
-                android:textSize="14sp"
-                android:textColor="@color/gray"
+                android:gravity="center_horizontal"
+                android:textSize="18sp"
+                android:textColor="@color/dark"
+                android:textAlignment="gravity"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
     </LinearLayout>
 
     <LinearLayout
             android:gravity="center_vertical"
-            android:id="@+id/install_button_layout"
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
@@ -60,7 +58,7 @@
                 android:background="@drawable/left_radius_button"
                 android:gravity="center"
                 android:textAlignment="gravity"
-                android:id="@+id/finish"
+                android:id="@+id/cancelAuthorize"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -73,10 +71,11 @@
                 android:textColor="@color/right_btn_text"
                 android:gravity="center"
                 android:textAlignment="gravity"
-                android:id="@+id/open"
+                android:id="@+id/sureAuthorize"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/sure"/>
+                android:text="@string/authorize"/>
+
     </LinearLayout>
 </LinearLayout>

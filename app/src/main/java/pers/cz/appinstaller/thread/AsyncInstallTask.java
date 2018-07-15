@@ -40,7 +40,9 @@ public class AsyncInstallTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (result.contains("Success"))
+        if (result.equals("outOfMemory"))
+            callback.setText(R.string.out_of_space_dlg_text);
+        else if (result.contains("Success"))
             callback.setText(R.string.install_success);
         else
             callback.setText(R.string.install_fail);

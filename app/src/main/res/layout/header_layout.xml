@@ -21,7 +21,8 @@
             android:id="@+id/appName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Application"/>
+            android:text="@string/defaultAppName"
+            android:singleLine="true"/>
 
     <TextView
             android:textSize="20sp"
@@ -30,6 +31,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:layout_marginBottom="10dp"
-            android:text="0.0.0"/>
+            android:text="@string/defaultAppVersion"
+            android:singleLine="true"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
 </LinearLayout>

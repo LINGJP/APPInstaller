@@ -14,7 +14,7 @@
             android:paddingTop="30dp"
             android:paddingBottom="30dp">
 
-        <android.support.v7.widget.SwitchCompat
+        <Switch
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
@@ -26,9 +26,10 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="@string/delete_apk"
-                android:longClickable="false"
-                android:checked="true"
-                android:theme="@style/SwitchStyle"/>
+                android:showText="false"
+                android:textOn=" "
+                android:textOff=" "
+                android:checked="true"/>
 
         <ExpandableListView
                 style="@style/listStyle"
@@ -40,7 +41,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:dividerHeight="5dp"
+                android:dividerHeight="1dp"
                 android:groupIndicator="@null"/>
 
         <View
@@ -50,7 +51,6 @@
 
     <LinearLayout
             android:gravity="center_vertical"
-            android:id="@+id/install_button_layout"
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
@@ -60,7 +60,7 @@
                 android:background="@drawable/left_radius_button"
                 android:gravity="center"
                 android:textAlignment="gravity"
-                android:id="@+id/cancel"
+                android:id="@+id/cancelPermission"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -72,7 +72,7 @@
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:textAlignment="gravity"
-                android:id="@+id/sure"
+                android:id="@+id/surePermission"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

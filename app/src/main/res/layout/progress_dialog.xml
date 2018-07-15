@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"/>
 
         <ImageView
+                android:id="@+id/progressImg"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/animate_progress_image"
                 android:layout_width="match_parent"

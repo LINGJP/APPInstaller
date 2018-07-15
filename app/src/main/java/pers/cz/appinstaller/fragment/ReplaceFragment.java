@@ -2,12 +2,17 @@ package pers.cz.appinstaller.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import pers.cz.appinstaller.R;
 
 public class ReplaceFragment extends android.support.v4.app.Fragment {
+    private FragmentActivity activity;
+    private FragmentManager supportFragmentManager;
     private String apkAbsolutePath;
     private String packageName;
 
@@ -22,15 +27,16 @@ public class ReplaceFragment extends android.support.v4.app.Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().findViewById(R.id.replace).setOnClickListener(new View.OnClickListener() {
+        activity = getActivity();
+        supportFragmentManager = activity.getSupportFragmentManager();
+        activity.findViewById(R.id.sureReplace).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 PermissionFragment fragment = new PermissionFragment();
                 Bundle arguments = new Bundle();
                 arguments.putString("apkAbsolutePath", ReplaceFragment.this.apkAbsolutePath);
                 arguments.putString("packageName", ReplaceFragment.this.packageName);
                 fragment.setArguments(arguments);
-                getActivity()
-                        .getSupportFragmentManager()
+                supportFragmentManager
                         .beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                         .replace(R.id.fragment, fragment)
@@ -38,10 +44,10 @@ public class ReplaceFragment extends android.support.v4.app.Fragment {
                         .commit();
             }
         });
-        getActivity().findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+        activity.findViewById(R.id.cancelReplace).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-//                getActivity().getSupportFragmentManager().popBackStack();
-                getActivity().finish();
+//                supportFragmentManager.popBackStack();
+                activity.finish();
             }
         });
     }

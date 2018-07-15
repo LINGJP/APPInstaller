@@ -15,11 +15,10 @@ public class AsyncNetUtil {
         new Thread() {
             @Override
             public void run() {
-                final String response = NetUtil.get(url);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        callback.setText(response);
+                        callback.setText(NetUtil.get(url));
                     }
                 });
             }
@@ -31,11 +30,10 @@ public class AsyncNetUtil {
         new Thread() {
             @Override
             public void run() {
-                final String response = NetUtil.post(url, content);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        callback.setText(response);
+                        callback.setText(NetUtil.post(url, content));
                     }
                 });
             }

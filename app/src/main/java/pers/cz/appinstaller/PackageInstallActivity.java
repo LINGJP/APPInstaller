@@ -32,7 +32,7 @@ public class PackageInstallActivity extends FragmentActivity {
         }
 //        apkAbsolutePath = "/storage/sdcard/backups/apps/ES文件浏览器_4.1.7.2.apk";
         //draw header
-        Drawable drawable = InstallUtil.getAppIconByByFilePath(this, apkAbsolutePath);
+        Drawable drawable = InstallUtil.getAppIconByFilePath(this, apkAbsolutePath);
         if (drawable != null)
             ((ImageView) findViewById(R.id.appIcon)).setImageDrawable(drawable);
         ((TextView) findViewById(R.id.appName)).setText(InstallUtil.getAppNameByFilePath(this, apkAbsolutePath));
@@ -45,7 +45,7 @@ public class PackageInstallActivity extends FragmentActivity {
         if (null == packageInfo)
             fragment = new PermissionFragment();
         else {
-            String appVersionStr = packageInfo.versionName + " -> " + appVersionTextView.getText();
+            String appVersionStr = packageInfo.versionName + " —> " + appVersionTextView.getText();
             appVersionTextView.setText(appVersionStr);
             fragment = new ReplaceFragment();
         }
@@ -53,7 +53,10 @@ public class PackageInstallActivity extends FragmentActivity {
         arguments.putString("apkAbsolutePath", apkAbsolutePath);
         arguments.putString("packageName", packageName);
         fragment.setArguments(arguments);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment, fragment)
+                .commit();
     }
 
     @Override

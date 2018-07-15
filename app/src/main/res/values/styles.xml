@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="no_title" parent="android:Theme.NoTitleBar">
+    <style name="no_title" parent="android:Theme.Light.NoTitleBar">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -14,10 +14,10 @@
     <style name="myProgressStyle">
         <item name="android:indeterminateDrawable">@drawable/animate_progress_image</item>
     </style>
-    <style name="SwitchStyle" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@color/blue</item>
-    </style>
-    <style name="listStyle" parent="Theme.AppCompat.Light">
+    <!--<style name="SwitchStyle" >-->
+        <!--<item name="colorAccent">@color/blue</item>-->
+    <!--</style>-->
+    <style name="listStyle" parent="android:Theme.Light.NoTitleBar">
         <item name="android:textSize">20sp</item>
     </style>
 </resources>

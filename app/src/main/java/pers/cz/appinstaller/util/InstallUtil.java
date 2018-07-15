@@ -3,22 +3,20 @@ package pers.cz.appinstaller.util;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.content.pm.*;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.os.StatFs;
 
 import java.io.*;
 import java.nio.channels.FileLock;
+import java.util.List;
 
 public class InstallUtil {
-    public static final int NONEEDDECODEAPK = 17;
-    public static final int NONEEDDECODEBPK = 18;
-    public static final int NEEDDECODEBPK = 19;
+    private static final int NONEEDDECODEAPK = 17;
+    private static final int NONEEDDECODEBPK = 18;
+    private static final int NEEDDECODEBPK = 19;
 
     public static synchronized void openApp(String packageName, Context context) throws NameNotFoundException {
         Intent resolveIntent = new Intent("android.intent.action.MAIN");
@@ -65,7 +63,7 @@ public class InstallUtil {
         return packageInfo.versionName;
     }
 
-    public static synchronized Drawable getAppIconByByFilePath(Context context, String apkAbsolutePath) {
+    public static synchronized Drawable getAppIconByFilePath(Context context, String apkAbsolutePath) {
         PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo = packageManager.getPackageArchiveInfo(apkAbsolutePath, PackageManager.GET_ACTIVITIES);
         if (packageInfo == null)
@@ -74,6 +72,24 @@ public class InstallUtil {
         appInfo.sourceDir = apkAbsolutePath;
         appInfo.publicSourceDir = apkAbsolutePath;
         return packageManager.getApplicationIcon(appInfo);
+    }
+
+    public static synchronized String[] getAppPermissionsByFilePath(Context context, String apkAbsolutePath) {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo = packageManager.getPackageArchiveInfo(apkAbsolutePath, PackageManager.GET_PERMISSIONS);
+        String[] permissionNames = packageInfo.requestedPermissions;
+        if (permissionNames == null)
+            return new String[0];
+        for (int i = 0; i < permissionNames.length; i++) {
+            String permissionName = permissionNames[i];
+            try {
+                permissionName = packageManager.getPermissionInfo(permissionName, 0).loadLabel(packageManager).toString();
+            } catch (NameNotFoundException e) {
+                e.printStackTrace();
+            }
+            permissionNames[i] = permissionName;
+        }
+        return permissionNames;
     }
 
     public static synchronized PackageInfo getPackageInfoByPackageName(Context context, String packageName) {
@@ -106,7 +122,7 @@ public class InstallUtil {
         byte[] xorCode = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".getBytes();
         File file = new File(apkAbsolutePath);
         if (!Environment.getExternalStorageDirectory().exists() || getSDCardAvailMemory() <= file.length())
-            return "";
+            return "outOfMemory";
         String outputPath = Environment.getExternalStorageDirectory() + "/bpk-decode/" + getFileNameExceptExtendNameByFilePath(apkAbsolutePath);
         File outfile = new File(outputPath);
         int offset = 0;
@@ -209,7 +225,6 @@ public class InstallUtil {
                 outputStream.write(buffer, 0, length);
             return new String(outputStream.toByteArray());
         } catch (IOException e) {
-            System.out.println(e.getMessage());
             e.printStackTrace();
             return "";
         } finally {
@@ -247,6 +262,6 @@ public class InstallUtil {
                 e.printStackTrace();
             }
         }
-        return null;
+        return "";
     }
 }
